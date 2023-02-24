@@ -5,15 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bgcolor"
-    tools:context=".MainActivity"
-     >
+    tools:context=".MainActivity">
 <LinearLayout
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="20dp"
     android:layout_gravity="center|end">
     <ImageView
-
+        android:id="@+id/ImgSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_settings_24"
@@ -23,17 +24,16 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
     android:layout_gravity="center">
     <TextView
+        android:id="@+id/tvTimeText"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:text="@string/timerText"
         android:textAlignment="center"
         android:textColor="@color/white"
-
         android:fontFamily="@font/mulish_semibold"
         android:textSize="60sp" />
 
@@ -42,19 +42,33 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:layout_gravity="center|bottom">
     <Button
+        android:id="@+id/btnStart"
         android:layout_width="200dp"
         android:layout_height="80dp"
-        android:background="@drawable/button_style"
+        android:background="@drawable/buttonstart_style"
         android:fontFamily="@font/mulish_extrabold"
         android:gravity="center"
         android:text="@string/buttonStartText"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnStopOver"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:background="@drawable/buttonstopover_style"
+            android:layout_marginTop="20dp"
+            android:text="@string/buttonStopOverText"
+            android:textSize="25sp"
+            android:fontFamily="@font/mulish_extrabold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textStyle="bold"
 
+            />
 
     </LinearLayout>
 </LinearLayout>

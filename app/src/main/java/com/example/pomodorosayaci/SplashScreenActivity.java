@@ -8,10 +8,9 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.example.pomodorosayaci.databinding.ActivityMainBinding;
 import com.example.pomodorosayaci.databinding.ActivitySplashScreenBinding;
 
-public class splash_screen extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     private ActivitySplashScreenBinding binding;
     private Animation animation;

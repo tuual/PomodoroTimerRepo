@@ -3,4 +3,8 @@
     <string name="todo">TODO</string>
     <string name="timerText">00:00</string>
     <string name="buttonStartText">Başlat</string>
+    <string name="buttonStopOverText">Mola</string>
+    <string name="etMinSettingsHint">Dakika Süresi</string>
+    <string name="etStopOverSettingsHint">Mola Süresi </string>
+    <string name="buttonApplyText">Onayla </string>
 </resources>
