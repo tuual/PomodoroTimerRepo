@@ -4,43 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgcolor"
-
     android:orientation="vertical"
+    android:background="@color/bgcolor"
     tools:context=".MainActivity">
-
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|end"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
-        android:orientation="horizontal">
-
+        android:layout_gravity="center|end">
         <ImageView
             android:id="@+id/ImgSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:src="@drawable/baseline_question_mark_24" />
+            android:src="@drawable/baseline_question_mark_24"
+            android:layout_gravity="top|end"/>
     </LinearLayout>
-
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:orientation="horizontal">
-
+        android:layout_gravity="center">
         <TextView
             android:id="@+id/tvTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:fontFamily="@font/mulish_semibold"
             android:text="@string/timerText"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:fontFamily="@font/mulish_semibold"
             android:textSize="80sp" />
 
     </LinearLayout>
@@ -70,14 +65,13 @@
             android:id="@+id/btnStart"
             android:layout_width="200dp"
             android:layout_height="80dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/buttonstyle2"
             android:fontFamily="@font/mulish_extrabold"
             android:gravity="center"
             android:text="@string/buttonStartText"
             android:textColor="@color/white"
-
+            android:layout_marginTop="20dp"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/btnStopOver"
@@ -87,23 +81,25 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.695" />
 
+            <Button
+                android:id="@+id/btnStopOver"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:background="@drawable/buttonstopover_style"
+                android:fontFamily="@font/mulish_extrabold"
+                android:gravity="center"
+                android:text="@string/buttonStopOverText2"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
-        <Button
-            android:id="@+id/btnStopOver"
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:background="@drawable/buttonstopover_style"
-            android:fontFamily="@font/mulish_extrabold"
-            android:gravity="center"
-            android:text="@string/buttonStopOverText"
-            android:textColor="@color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+
+
 
 
     </LinearLayout>

@@ -11,29 +11,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pomodorosayaci.databinding.ActivityMainBinding;
+import com.example.pomodorosayaci.databinding.ActivityMain2Binding;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-    private String buttonText;
     private CountDownTimer mCountDownTimer;
-    private static long START_TIME_IN_MILLIS = 1500000;
+    private static long START_TIME_IN_MILLIS = 300000;
     private boolean mTimerRunning;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
 
+    private ActivityMain2Binding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        binding.tvTimeText.setText("25:00");
+        binding.tvTimeText.setText("05:00");
         binding.ImgSettings.setOnClickListener(view -> {
-            questionDialog();
+            questionPage();
         });
 
         binding.btnStart.setOnClickListener(view -> {
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void overPage() {
-        Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
         updateButtons();
-
 
     }
 
@@ -85,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 updateButtons();
-
             }
         }.start();
 
@@ -114,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void questionDialog() {
+    private void questionPage() {
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.alertlayout,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -127,8 +123,9 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.show();
 
-    }
 
+
+    }
     private void updateButtons(){
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
@@ -181,5 +178,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
-
