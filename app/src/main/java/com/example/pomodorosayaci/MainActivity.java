@@ -1,14 +1,16 @@
 package com.example.pomodorosayaci;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pomodorosayaci.databinding.ActivityMainBinding;
@@ -24,19 +26,38 @@ public class MainActivity extends AppCompatActivity {
     private boolean mTimerRunning;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
+    private int i = 0;
+    private ImageView img;
+    private Drawable timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
+        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        int themeColor = sharedPreferences.getInt("themecolor",0);
+        binding.mainlayout.setBackgroundColor(themeColor);
+        binding.btnStopOver.setTextColor(themeColor);
 
+
+
+        if (isScreenOn) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+
+        binding.progressBar.setProgress((int)i);
         binding.tvTimeText.setText("25:00");
+        img = findViewById(R.id.imgStart);
         binding.ImgSettings.setOnClickListener(view -> {
-            questionDialog();
+            settingsPage();
         });
 
-        binding.btnStart.setOnClickListener(view -> {
+        binding.imgStart.setOnClickListener(view -> {
             if (mTimerRunning) {
                 pauseTimer();
             } else {
@@ -59,12 +80,14 @@ public class MainActivity extends AppCompatActivity {
     private void overPage() {
         Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
         startActivity(intent);
-        finish();
+
     }
 
 
     private void resetTimer() {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
+        binding.progressBar.setProgress(0);
+        i = 0;
         updateCountDownText();
         updateButtons();
 
@@ -79,12 +102,18 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long l) {
                 mTimerLeftInMillis = l;
                 updateCountDownText();
+                if (i<=250000){
+                    i++;
+                    binding.progressBar.setProgress((int) ((int) i*100/(150000/1000)));
+                }
+
             }
 
             @Override
             public void onFinish() {
                 mTimerRunning = false;
                 updateButtons();
+                i++;
 
             }
         }.start();
@@ -95,10 +124,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
-        binding.btnStart.setText("Başlat");
+        binding.tvTimeText.setVisibility(View.VISIBLE);
+        img.setImageResource(R.drawable.baseline_play_circle_24);
         binding.btnReset.setVisibility(View.VISIBLE);
         binding.btnStopOver.setVisibility(View.VISIBLE);
 
@@ -114,37 +145,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void questionDialog() {
-        LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.alertlayout,null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view);
-        builder.setCancelable(false);
-        final AlertDialog dialog = builder.create();
-        Button button2 = view.findViewById(R.id.buttonalert);
-        button2.setOnClickListener(view2 ->{
-            dialog.cancel();
-        });
-        dialog.show();
+    private void settingsPage() {
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
+        finish();
+
 
     }
 
     private void updateButtons(){
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
-            binding.btnStart.setText("Durdur");
+            img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
 
         }
         else
         {
-            binding.btnStart.setText("Başlat");
+            img.setImageResource(R.drawable.baseline_play_circle_24);
+
             if (mTimerLeftInMillis <1000 ){
-                binding.btnStart.setVisibility(View.INVISIBLE);
+                binding.imgStart.setVisibility(View.INVISIBLE);
 
             }
             else{
-                binding.btnStart.setVisibility(View.VISIBLE);
+                binding.imgStart.setVisibility(View.VISIBLE);
 
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
@@ -177,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         if (mTimerRunning){
             mEndTime = savedInstanceState.getLong("endTime");
             mTimerLeftInMillis = mEndTime - System.currentTimeMillis();
+
             startTimer();
         }
     }

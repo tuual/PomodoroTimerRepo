@@ -4,76 +4,177 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
+    android:id="@+id/mainlayout"
     android:background="@color/bgcolor"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/ImgSettingsReturn"
+        android:padding="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/ayarlarstyle">
+        
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_keyboard_return_24"
-            android:layout_gravity="top"/>
+            android:text="@string/ayarlar1Text"
+            android:textSize="25sp"
+            android:textColor="@color/white"/>
 
+       <Switch
+           android:id="@+id/ekranSwitch"
+           android:layout_marginTop="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:textSize="20sp"
+           android:switchPadding="5dp"
+           android:text="Kapalı"/>
     </LinearLayout>
 
     <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="200dp">
-
-        <EditText
-            android:id="@+id/etSettingsMinTime"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:hint="@string/etMinSettingsHint"
-            android:textColorHint="@color/white"
-            android:textAlignment="center"
-            android:background="@drawable/edittext_settings_style"
-            android:layout_marginTop="20dp"
-            android:inputType="number" />
-
-
-    <EditText
-        android:id="@+id/etSettingsStopOverTime"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:hint="@string/etStopOverSettingsHint"
-        android:textColorHint="@color/white"
-        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="5dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/edittext_settings_style"
-        android:inputType="number"
+        android:orientation="vertical"
+        android:background="@drawable/ayarlarstyle">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ayarlar2Text"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+            <LinearLayout
+                android:id="@+id/colorred"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/colorred"
+                android:orientation="horizontal"
+                tools:ignore="Orientation"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorpink"
+                android:orientation="horizontal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/colorpink"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorpurple"
+                android:layout_width="50dp"
+                android:orientation="horizontal"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/colorpurple"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colordeeppurple"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/colordeeppurple"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorindigo"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/colorindigo"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorblue"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/colorblue"> </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal" >
+            <LinearLayout
+                android:id="@+id/colorgreen"
+                android:layout_width="50dp"
+                android:orientation="horizontal"
+
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+
+                android:background="@drawable/colorgreen"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorgrey"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/colorgrey"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/coloryellow"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/coloryellow"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colororange"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/colororange"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colordeeporange"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/colordeeporange"> </LinearLayout>
+            <LinearLayout
+                android:id="@+id/colorbrown"
+                android:orientation="horizontal"
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/colorbrown"> </LinearLayout>
 
 
-        />
 
-    <Button
-        android:id="@+id/btnSettingsApply"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:background="@drawable/buttonstopover_style"
-        android:layout_marginTop="50dp"
-        android:text="@string/buttonApplyText"
-        android:textSize="25sp"
-        android:fontFamily="@font/mulish_extrabold"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textStyle="bold"
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/completeColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_check_circle_24"
+            android:layout_gravity="center"/>
 
-        />
-    </LinearLayout>
 
+    
+
+</LinearLayout>
 </LinearLayout>

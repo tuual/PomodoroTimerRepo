@@ -1,14 +1,16 @@
 package com.example.pomodorosayaci;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pomodorosayaci.databinding.ActivityMain2Binding;
@@ -22,19 +24,43 @@ public class MainActivity2 extends AppCompatActivity {
     private boolean mTimerRunning;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
+    private int mProgressBar;
+    private int i = 0;
+    private ImageView img;
+
+
 
     private ActivityMain2Binding binding;
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.tvTimeText.setText("05:00");
+        mediaPlayer = null;
+        img = findViewById(R.id.imgStart);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
+        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        int themeColor = sharedPreferences.getInt("themecolor",0);
+        binding.mainlayout.setBackgroundColor(themeColor);
+        binding.btnStopOver.setTextColor(themeColor);
+
+        if (isScreenOn) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
+
+
         binding.ImgSettings.setOnClickListener(view -> {
-            questionPage();
+            settingspage();
         });
 
-        binding.btnStart.setOnClickListener(view -> {
+        binding.imgStart.setOnClickListener(view -> {
             if (mTimerRunning) {
                 pauseTimer();
             } else {
@@ -51,11 +77,13 @@ public class MainActivity2 extends AppCompatActivity {
             overPage();
         });
 
+
         updateCountDownText();
     }
 
+
     private void overPage() {
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -63,8 +91,12 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void resetTimer() {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
+        binding.progressBar.setProgress(0);
+        stopAlarm();
+        i = 0;
         updateCountDownText();
         updateButtons();
+
 
     }
 
@@ -76,12 +108,29 @@ public class MainActivity2 extends AppCompatActivity {
             public void onTick(long l) {
                 mTimerLeftInMillis = l;
                 updateCountDownText();
+                binding.tvTimeText.setVisibility(View.VISIBLE);
+                if (i <= 250000) {
+                    i++;
+                    binding.progressBar.setProgress((int) ((int) i * 100 / (300000 / 1000)));
+                }
+
             }
 
             @Override
             public void onFinish() {
                 mTimerRunning = false;
                 updateButtons();
+
+                if (mediaPlayer == null) {
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+                }
+                mediaPlayer.setOnCompletionListener(mediaPlayer1 -> {
+                    stopAlarm();
+
+                });
+                mediaPlayer.start();
+
+
             }
         }.start();
 
@@ -91,15 +140,33 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopAlarm();
+    }
+
+    private void stopAlarm() {
+        mediaPlayer=null;
+    }
+
+
     private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning = false;
-        binding.btnStart.setText("Başlat");
+        binding.tvTimeText.setVisibility(View.VISIBLE);
+        img.setImageResource(R.drawable.baseline_play_circle_24);
+
         binding.btnReset.setVisibility(View.VISIBLE);
         binding.btnStopOver.setVisibility(View.VISIBLE);
 
 
     }
+
+
 
     private void updateCountDownText() {
         int minutes = (int) (mTimerLeftInMillis / 1000) /60;
@@ -110,42 +177,34 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 
-    private void questionPage() {
-        LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.alertlayout,null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view);
-        builder.setCancelable(false);
-        final AlertDialog dialog = builder.create();
-        Button button2 = view.findViewById(R.id.buttonalert);
-        button2.setOnClickListener(view2 ->{
-            dialog.cancel();
-        });
-        dialog.show();
+    private void settingspage() {
 
+        Intent intent = new Intent(this,SettingsActivity.class);
+        startActivity(intent);
 
 
     }
     private void updateButtons(){
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
-            binding.btnStart.setText("Durdur");
+            img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
 
         }
         else
         {
-            binding.btnStart.setText("Başlat");
+            img.setImageResource(R.drawable.baseline_play_circle_24);
             if (mTimerLeftInMillis <1000 ){
-                binding.btnStart.setVisibility(View.INVISIBLE);
+                binding.imgStart.setVisibility(View.INVISIBLE);
 
             }
             else{
-                binding.btnStart.setVisibility(View.VISIBLE);
+                binding.imgStart.setVisibility(View.VISIBLE);
 
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
+
 
             }
             else{
@@ -160,6 +219,7 @@ public class MainActivity2 extends AppCompatActivity {
         outState.putLong("millisLeft",mTimerLeftInMillis);
         outState.putBoolean("timerRunning",mTimerRunning);
         outState.putLong("endTime",mEndTime);
+        outState.putInt("progresTime",mProgressBar);
     }
 
     @Override
@@ -168,6 +228,10 @@ public class MainActivity2 extends AppCompatActivity {
 
         mTimerLeftInMillis = savedInstanceState.getLong("millisLeft");
         mTimerRunning = savedInstanceState.getBoolean("timerRunning");
+        mProgressBar = savedInstanceState.getInt("progresTime");
+        assert binding.progressBar != null;
+        binding.progressBar.setProgress((int) mProgressBar);
+
         updateCountDownText();
         updateButtons();
 

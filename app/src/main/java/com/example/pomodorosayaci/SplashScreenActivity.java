@@ -1,12 +1,12 @@
 package com.example.pomodorosayaci;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pomodorosayaci.databinding.ActivitySplashScreenBinding;
 
@@ -21,6 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setTheme(R.style.SplashTheme);
         handler = new Handler();
         Thread logoAnim = new Thread(){
             @Override

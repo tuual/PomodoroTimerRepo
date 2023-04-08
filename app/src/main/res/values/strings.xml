@@ -5,11 +5,8 @@
     <string name="buttonStartText">Başlat</string>
     <string name="buttonStopOverText">Molaya Geç</string>
     <string name="buttonStopOverText2">Çalışma Alanına Geç</string>
-    <string name="etMinSettingsHint">Dakika Süresi</string>
-    <string name="etStopOverSettingsHint">Mola Süresi </string>
-    <string name="buttonApplyText">Onayla </string>
-    <string name="buttonPauseText">Durdur </string>
-    <string name="btnResetText">Sıfırla </string>
-    <string name="alertdialogtext">Ekranı Yatay Kullanmak İçin Otomatik Döndürü Açın. </string>
-    <string name="alertdialogtitletext">Bilgi </string>
+    <string name="ayarlar">Ayarlar</string>
+    <string name="ayarlar1Text">Ekranı Uyanık Tut</string>
+    <string name="ayarlar2Text">Renk Temaları</string>
+
 </resources>
