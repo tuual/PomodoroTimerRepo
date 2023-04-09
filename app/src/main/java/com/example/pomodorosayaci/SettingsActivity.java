@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.pomodorosayaci.databinding.ActivitySettingsBinding;
 
@@ -14,20 +15,36 @@ public class SettingsActivity extends AppCompatActivity {
 
     private ActivitySettingsBinding binding;
     private SharedPreferences sharedPreferences;
-    private boolean keepscreenon,switchstate;
-    private int color;
-    private int colortheme;
+    private boolean keepscreenon,switchstate,switchstate2;
+    private int color,colortheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+    // SharedPreferences
         sharedPreferences = getSharedPreferences("screen",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         keepscreenon = sharedPreferences.getBoolean("keep_screen_on",false);
         switchstate = sharedPreferences.getBoolean("switch_state",false);
+        switchstate2 = sharedPreferences.getBoolean("switch_state2",false);
         colortheme = sharedPreferences.getInt("themecolor",0);
+
+        // Yeni Tema
         binding.mainlayout.setBackgroundColor(colortheme);
+        // Secili Switch
+        binding.ekranSwitch.setChecked(switchstate);
+        binding.titresimSwitch.setChecked(switchstate2);
+        // Switch Kontrolu
+        if (switchstate2){
+            binding.titresimSwitch.setText("Açık");
+        }
+        else{
+            binding.titresimSwitch.setText("Kapalı");
+
+        }
 
         if (switchstate){
             binding.ekranSwitch.setText("Açık");
@@ -36,14 +53,32 @@ public class SettingsActivity extends AppCompatActivity {
             binding.ekranSwitch.setText("Kapalı");
 
         }
-
-        binding.ekranSwitch.setChecked(switchstate);
+        // Ekran Açık Kalma Kontrolu
         if (keepscreenon){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        binding.titresimSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    binding.titresimSwitch.setText("Açık");
+                    editor.putBoolean("vibrate",true);
+                    editor.putBoolean("switch_state2",b);
+                    editor.apply();
+
+
+                }
+                else{
+                    binding.titresimSwitch.setText("Kapalı");
+                    editor.putBoolean("switch_state2",b);
+                    editor.apply();
+
+                }
+            }
+        });
         binding.ekranSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -74,15 +109,19 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.colorblue.setOnClickListener(view -> {
-            color = getColor(R.color.bgcolorBlue);
-            binding.mainlayout.setBackgroundColor(color);
-            editor.putInt("themecolor", color);
-            editor.apply();
+            color = ContextCompat.getColor(getApplicationContext(),R.color.bgcolorBlue);
+                binding.mainlayout.setBackgroundColor(color);
+                editor.putInt("themecolor", color);
+                editor.apply();
+                recreate();
+
+
 
 
         });
         binding.colorred.setOnClickListener(view ->{
-            color = getColor(R.color.bgcolor);
+            color = getResources().getColor(R.color.bgcolor);
+
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
@@ -165,6 +204,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
         binding.coloryellow.setOnClickListener(view -> {
             color = getColor(R.color.bgcolorYellow);
+
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();

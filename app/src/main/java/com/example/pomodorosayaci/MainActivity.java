@@ -3,9 +3,12 @@ package com.example.pomodorosayaci;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -22,22 +25,29 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private String buttonText;
     private CountDownTimer mCountDownTimer;
-    private static long START_TIME_IN_MILLIS = 1500000;
-    private boolean mTimerRunning;
+    private static long START_TIME_IN_MILLIS = 25 * 60 * 1000;
+    private boolean mTimerRunning,vibrate;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
     private int i = 0;
     private ImageView img;
-    private Drawable timer;
+    private MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mediaPlayer = null;
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
         boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
         int themeColor = sharedPreferences.getInt("themecolor",0);
+        vibrate = sharedPreferences.getBoolean("vibrate", false);
+
+
+
         binding.mainlayout.setBackgroundColor(themeColor);
         binding.btnStopOver.setTextColor(themeColor);
 
@@ -80,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private void overPage() {
         Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
         startActivity(intent);
-
+        finish();
     }
 
 
@@ -88,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
         binding.progressBar.setProgress(0);
         i = 0;
+        stopAlarm();
         updateCountDownText();
         updateButtons();
 
@@ -97,15 +108,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void startTimer() {
         mEndTime = System.currentTimeMillis() + mTimerLeftInMillis;
+        binding.progressBar.setMax(25 * 60);
         mCountDownTimer = new CountDownTimer(mTimerLeftInMillis, 1000) {
             @Override
             public void onTick(long l) {
                 mTimerLeftInMillis = l;
                 updateCountDownText();
-                if (i<=250000){
-                    i++;
-                    binding.progressBar.setProgress((int) ((int) i*100/(150000/1000)));
-                }
+
+
+
+                int progress = (int) ((25 * 60 * 1000 - mTimerLeftInMillis) / 1000);
+                binding.progressBar.setProgress(progress);
+
 
             }
 
@@ -113,7 +127,25 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 updateButtons();
-                i++;
+                binding.progressBar.setProgress(25 * 60);
+                if (mediaPlayer == null) {
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+                }
+                mediaPlayer.setOnCompletionListener(mediaPlayer1 -> {
+                    stopAlarm();
+
+                });
+                mediaPlayer.start();
+                if (vibrate){
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else{
+                        vibrator.vibrate(1000);
+                    }
+
+                }
 
             }
         }.start();
@@ -123,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    private void stopAlarm(){
+        mediaPlayer = null;
+    }
 
     private void pauseTimer() {
         mCountDownTimer.cancel();
@@ -132,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         img.setImageResource(R.drawable.baseline_play_circle_24);
         binding.btnReset.setVisibility(View.VISIBLE);
         binding.btnStopOver.setVisibility(View.VISIBLE);
+
 
 
     }
@@ -148,8 +183,13 @@ public class MainActivity extends AppCompatActivity {
     private void settingsPage() {
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
-        finish();
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
     }
 
@@ -158,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
+
 
         }
         else
@@ -174,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
+
 
             }
             else{

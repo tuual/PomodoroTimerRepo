@@ -35,6 +35,32 @@
            android:switchPadding="5dp"
            android:text="Kapalı"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/ayarlarstyle">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ayarlar3Text"
+            android:textSize="25sp"
+            android:textColor="@color/white"/>
+
+        <Switch
+            android:id="@+id/titresimSwitch"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:switchPadding="5dp"
+            android:text="Kapalı"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

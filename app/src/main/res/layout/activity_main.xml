@@ -54,8 +54,8 @@
 
         <ImageView
             android:id="@+id/imgStart"
-            android:layout_width="269dp"
-            android:layout_height="263dp"
+            android:layout_width="231dp"
+            android:layout_height="184dp"
             android:layout_gravity="center"
             android:src="@drawable/baseline_play_circle_24"
             app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
@@ -104,7 +104,6 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center|bottom"
                 android:background="@drawable/buttonstopover_style"
-                android:drawableLeft="@drawable/baseline_timer_24"
                 android:fontFamily="@font/mulish_extrabold"
                 android:text="@string/buttonStopOverText"
                 android:textColor="@color/bgcolor"

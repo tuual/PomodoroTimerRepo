@@ -8,5 +8,6 @@
     <string name="ayarlar">Ayarlar</string>
     <string name="ayarlar1Text">Ekranı Uyanık Tut</string>
     <string name="ayarlar2Text">Renk Temaları</string>
+    <string name="ayarlar3Text">Sayaç Bittiğinde Titreşim</string>
 
 </resources>

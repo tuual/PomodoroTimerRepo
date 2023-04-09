@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,12 +23,12 @@ import java.util.Locale;
 public class MainActivity2 extends AppCompatActivity {
 
     private CountDownTimer mCountDownTimer;
-    private static long START_TIME_IN_MILLIS = 300000;
-    private boolean mTimerRunning;
+    private static long START_TIME_IN_MILLIS =  5 * 60 * 1000;;
+    private boolean mTimerRunning,vibrate;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
     private int mProgressBar;
-    private int i = 0;
+
     private ImageView img;
 
 
@@ -45,6 +48,7 @@ public class MainActivity2 extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
         boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
         int themeColor = sharedPreferences.getInt("themecolor",0);
+        vibrate = sharedPreferences.getBoolean("vibrate", false);
         binding.mainlayout.setBackgroundColor(themeColor);
         binding.btnStopOver.setTextColor(themeColor);
 
@@ -93,7 +97,6 @@ public class MainActivity2 extends AppCompatActivity {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
         binding.progressBar.setProgress(0);
         stopAlarm();
-        i = 0;
         updateCountDownText();
         updateButtons();
 
@@ -103,16 +106,15 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void startTimer() {
         mEndTime = System.currentTimeMillis() + mTimerLeftInMillis;
+        binding.progressBar.setMax(5 *60); // 5 dakika için
         mCountDownTimer = new CountDownTimer(mTimerLeftInMillis, 1000) {
             @Override
             public void onTick(long l) {
                 mTimerLeftInMillis = l;
                 updateCountDownText();
                 binding.tvTimeText.setVisibility(View.VISIBLE);
-                if (i <= 250000) {
-                    i++;
-                    binding.progressBar.setProgress((int) ((int) i * 100 / (300000 / 1000)));
-                }
+                int progress = (int) ((5 * 60 * 1000 - mTimerLeftInMillis) / 1000);
+                binding.progressBar.setProgress(progress);
 
             }
 
@@ -130,6 +132,16 @@ public class MainActivity2 extends AppCompatActivity {
                 });
                 mediaPlayer.start();
 
+                if (vibrate){
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else{
+                        vibrator.vibrate(1000);
+                    }
+
+                }
 
             }
         }.start();
@@ -139,10 +151,6 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     }
-
-
-
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -189,6 +197,7 @@ public class MainActivity2 extends AppCompatActivity {
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
+
 
         }
         else

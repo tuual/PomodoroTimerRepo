@@ -103,7 +103,6 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center|bottom"
                 android:background="@drawable/buttonstopover_style"
-                android:drawableLeft="@drawable/baseline_timer_24"
                 android:fontFamily="@font/mulish_extrabold"
                 android:text="@string/buttonStopOverText2"
                 android:textColor="@color/bgcolor"
