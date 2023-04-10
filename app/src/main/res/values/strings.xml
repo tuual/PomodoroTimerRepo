@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pomodoro Timer</string>
+    <string name="app_name">Pomodoro Sayacı</string>
     <string name="todo">TODO</string>
     <string name="timerText">00:00</string>
     <string name="buttonStartText">Başlat</string>
