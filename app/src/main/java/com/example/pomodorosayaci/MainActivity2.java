@@ -1,5 +1,6 @@
 package com.example.pomodorosayaci;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.pomodorosayaci.databinding.ActivityMain2Binding;
 
@@ -23,19 +25,17 @@ import java.util.Locale;
 public class MainActivity2 extends AppCompatActivity {
 
     private CountDownTimer mCountDownTimer;
-    private static long START_TIME_IN_MILLIS =  5 * 60 * 1000;;
-    private boolean mTimerRunning,vibrate;
+    private static long START_TIME_IN_MILLIS =  5 * 60 * 1000;
+    private boolean mTimerRunning,vibrate,isScreenOn;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
-    private int mProgressBar;
+    private int mProgressBar,nowColor;
 
     private ImageView img;
-
-
-
     private ActivityMain2Binding binding;
     private MediaPlayer mediaPlayer;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +46,24 @@ public class MainActivity2 extends AppCompatActivity {
         img = findViewById(R.id.imgStart);
 
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
-        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        isScreenOn = sharedPreferences.getBoolean("keep_screen_on", true);
         int themeColor = sharedPreferences.getInt("themecolor",0);
         vibrate = sharedPreferences.getBoolean("vibrate", false);
         binding.mainlayout.setBackgroundColor(themeColor);
         binding.btnStopOver.setTextColor(themeColor);
+        nowColor = ContextCompat.getColor(getApplicationContext(),R.color.bgcolor);
 
+
+        if (themeColor ==   0){
+            binding.mainlayout.setBackgroundColor(nowColor);
+            binding.btnStopOver.setTextColor(nowColor);
+        }
+        else{
+
+            binding.mainlayout.setBackgroundColor(themeColor);
+            binding.btnStopOver.setTextColor(themeColor);
+
+        }
         if (isScreenOn) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
@@ -135,13 +147,20 @@ public class MainActivity2 extends AppCompatActivity {
                 if (vibrate){
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                        vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
                     }
                     else{
-                        vibrator.vibrate(1000);
+                        vibrator.vibrate(2000);
                     }
 
                 }
+                else{
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    if (vibrator.hasVibrator()){
+                        vibrator.cancel();
+                    }
+                }
+
 
             }
         }.start();
@@ -169,7 +188,7 @@ public class MainActivity2 extends AppCompatActivity {
         img.setImageResource(R.drawable.baseline_play_circle_24);
 
         binding.btnReset.setVisibility(View.VISIBLE);
-        binding.btnStopOver.setVisibility(View.VISIBLE);
+        binding.btnStopOver.setVisibility(View.INVISIBLE);
 
 
     }
@@ -189,6 +208,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
+        finish();
 
 
     }
@@ -197,6 +217,10 @@ public class MainActivity2 extends AppCompatActivity {
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
+            binding.ImgSettings.setVisibility(View.INVISIBLE);
+            binding.btnStopOver.setVisibility(View.INVISIBLE);
+
+
 
 
         }
@@ -205,14 +229,24 @@ public class MainActivity2 extends AppCompatActivity {
             img.setImageResource(R.drawable.baseline_play_circle_24);
             if (mTimerLeftInMillis <1000 ){
                 binding.imgStart.setVisibility(View.INVISIBLE);
+                binding.ImgSettings.setVisibility(View.INVISIBLE);
+                binding.btnStopOver.setVisibility(View.INVISIBLE);
+
 
             }
             else{
                 binding.imgStart.setVisibility(View.VISIBLE);
+                binding.ImgSettings.setVisibility(View.VISIBLE);
+                binding.btnStopOver.setVisibility(View.VISIBLE);
+
 
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
+                binding.ImgSettings.setVisibility(View.VISIBLE);
+                binding.btnStopOver.setVisibility(View.VISIBLE);
+
+
 
 
             }

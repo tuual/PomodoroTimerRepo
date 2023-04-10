@@ -6,7 +6,7 @@
     <color name="teal_200">#F44336</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#E0E0E0</color>
 
 
     <color name="bgcolor">#F44336</color>
@@ -24,8 +24,9 @@
     <color name="bgcolorGrey">#212121</color>
 
 
-    <color name="buttonBgColor">#FFFFFFFF</color>
-    <color name="circulaprogressbar">#FFFFFFFF</color>
+    <color name="buttonBgColor">#E0E0E0</color>
+    <color name="circulaprogressbar">#E0E0E0</color>
+    <color name="circulaprogressbar2">#9E9E9E</color>
     <color name="editTextBgColor">#9292A3</color>
-    <color name="settingslayoutColor">#EF9A9A</color>
+    <color name="settingslayoutColor">#E0E0E0</color>
 </resources>

@@ -13,14 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center|end">
-        <ImageView
-            android:id="@+id/ImgNotes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/baseline_note" />
+
         <ImageView
             android:id="@+id/ImgSettings"
             android:layout_width="wrap_content"

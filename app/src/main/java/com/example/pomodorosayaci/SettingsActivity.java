@@ -1,5 +1,6 @@
 package com.example.pomodorosayaci;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,13 +17,15 @@ public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
     private SharedPreferences sharedPreferences;
     private boolean keepscreenon,switchstate,switchstate2;
-    private int color,colortheme;
+    private int color,colortheme,nowColor;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
     // SharedPreferences
         sharedPreferences = getSharedPreferences("screen",MODE_PRIVATE);
@@ -33,7 +36,26 @@ public class SettingsActivity extends AppCompatActivity {
         colortheme = sharedPreferences.getInt("themecolor",0);
 
         // Yeni Tema
-        binding.mainlayout.setBackgroundColor(colortheme);
+        nowColor = ContextCompat.getColor(getApplicationContext(),R.color.bgcolor);
+        if (colortheme ==   0){
+            binding.mainlayout.setBackgroundColor(nowColor);
+            binding.tvEkran.setTextColor(nowColor);
+            binding.tvRenkTema.setTextColor(nowColor);
+            binding.tvTitresim.setTextColor(nowColor);
+            binding.ekranSwitch.setTextColor(nowColor);
+            binding.titresimSwitch.setTextColor(nowColor);
+            binding.btnKaydet.setTextColor(nowColor);
+        }
+        else{
+            binding.mainlayout.setBackgroundColor(colortheme);
+            binding.tvEkran.setTextColor(colortheme);
+            binding.tvRenkTema.setTextColor(colortheme);
+            binding.tvTitresim.setTextColor(colortheme);
+            binding.ekranSwitch.setTextColor(colortheme);
+            binding.titresimSwitch.setTextColor(colortheme);
+            binding.btnKaydet.setTextColor(colortheme);
+
+        }
         // Secili Switch
         binding.ekranSwitch.setChecked(switchstate);
         binding.titresimSwitch.setChecked(switchstate2);
@@ -66,14 +88,15 @@ public class SettingsActivity extends AppCompatActivity {
                 if (b){
                     binding.titresimSwitch.setText("Açık");
                     editor.putBoolean("vibrate",true);
-                    editor.putBoolean("switch_state2",b);
+                    editor.putBoolean("switch_state2",true);
                     editor.apply();
 
 
                 }
                 else{
                     binding.titresimSwitch.setText("Kapalı");
-                    editor.putBoolean("switch_state2",b);
+                    editor.putBoolean("vibrate",false);
+                    editor.putBoolean("switch_state2",false);
                     editor.apply();
 
                 }
@@ -95,36 +118,27 @@ public class SettingsActivity extends AppCompatActivity {
 
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("keep_screen_on",true);
+                    editor.putBoolean("keep_screen_on",false);
                     editor.putBoolean("switch_state",b);
                     editor.apply();
 
                 }
             }
         });
-        binding.completeColor.setOnClickListener(view ->{
+        binding.btnKaydet.setOnClickListener(view ->{
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
         });
 
-        binding.colorblue.setOnClickListener(view -> {
-            color = ContextCompat.getColor(getApplicationContext(),R.color.bgcolorBlue);
-                binding.mainlayout.setBackgroundColor(color);
-                editor.putInt("themecolor", color);
-                editor.apply();
-                recreate();
 
-
-
-
-        });
         binding.colorred.setOnClickListener(view ->{
             color = getResources().getColor(R.color.bgcolor);
 
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
         });
         binding.colorbrown.setOnClickListener(view -> {
@@ -132,23 +146,18 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
-        binding.colordeeporange.setOnClickListener(view -> {
-            color = getColor(R.color.bgcolorDeepOrange);
-            binding.mainlayout.setBackgroundColor(color);
-            editor.putInt("themecolor", color);
-            editor.apply();
 
-
-        });
 
         binding.colordeeppurple.setOnClickListener(view -> {
             color = getColor(R.color.bgcolorDeepPurple);
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -157,6 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -165,6 +175,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -173,6 +184,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -182,6 +194,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -190,6 +203,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
@@ -199,17 +213,10 @@ public class SettingsActivity extends AppCompatActivity {
             binding.mainlayout.setBackgroundColor(color);
             editor.putInt("themecolor", color);
             editor.apply();
+            recreate();
 
 
         });
-        binding.coloryellow.setOnClickListener(view -> {
-            color = getColor(R.color.bgcolorYellow);
 
-            binding.mainlayout.setBackgroundColor(color);
-            editor.putInt("themecolor", color);
-            editor.apply();
-
-
-        });
     }
 }

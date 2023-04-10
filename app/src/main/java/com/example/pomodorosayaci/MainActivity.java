@@ -1,5 +1,6 @@
 package com.example.pomodorosayaci;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.pomodorosayaci.databinding.ActivityMainBinding;
 
@@ -26,14 +28,17 @@ public class MainActivity extends AppCompatActivity {
     private String buttonText;
     private CountDownTimer mCountDownTimer;
     private static long START_TIME_IN_MILLIS = 25 * 60 * 1000;
-    private boolean mTimerRunning,vibrate;
+    private boolean mTimerRunning,vibrate,isScreenOn,ilkekranrenk;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
     private int i = 0;
+    private int themeColor;
+    private int nowColor;
     private ImageView img;
     private MediaPlayer mediaPlayer;
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,14 +47,25 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer = null;
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
-        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
-        int themeColor = sharedPreferences.getInt("themecolor",0);
+         isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        themeColor = sharedPreferences.getInt("themecolor",0);
+        ilkekranrenk = sharedPreferences.getBoolean("ilkekranrenk",false);
         vibrate = sharedPreferences.getBoolean("vibrate", false);
+        nowColor = ContextCompat.getColor(getApplicationContext(),R.color.bgcolor);
+        if (themeColor ==   0){
+            binding.mainlayout.setBackgroundColor(nowColor);
+            binding.btnStopOver.setTextColor(nowColor);
+        }
+        else{
+
+            binding.mainlayout.setBackgroundColor(themeColor);
+            binding.btnStopOver.setTextColor(themeColor);
+
+        }
 
 
 
-        binding.mainlayout.setBackgroundColor(themeColor);
-        binding.btnStopOver.setTextColor(themeColor);
+
 
 
 
@@ -165,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
         binding.tvTimeText.setVisibility(View.VISIBLE);
         img.setImageResource(R.drawable.baseline_play_circle_24);
         binding.btnReset.setVisibility(View.VISIBLE);
-        binding.btnStopOver.setVisibility(View.VISIBLE);
+        binding.btnStopOver.setVisibility(View.INVISIBLE);
+
 
 
 
@@ -183,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private void settingsPage() {
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
+        finish();
 
 
     }
@@ -197,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
+            binding.ImgSettings.setVisibility(View.INVISIBLE);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
-
 
         }
         else
@@ -207,15 +225,18 @@ public class MainActivity extends AppCompatActivity {
 
             if (mTimerLeftInMillis <1000 ){
                 binding.imgStart.setVisibility(View.INVISIBLE);
-
+                binding.ImgSettings.setVisibility(View.INVISIBLE );
+                binding.btnStopOver.setVisibility(View.INVISIBLE);
             }
             else{
                 binding.imgStart.setVisibility(View.VISIBLE);
-
+                binding.ImgSettings.setVisibility(View.VISIBLE);
+                binding.btnStopOver.setVisibility(View.VISIBLE);
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
-
+                binding.ImgSettings.setVisibility(View.VISIBLE);
+                binding.btnStopOver.setVisibility(View.VISIBLE);
 
             }
             else{

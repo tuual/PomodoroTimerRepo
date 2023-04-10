@@ -17,23 +17,24 @@
         android:gravity="center"
         android:orientation="vertical"
         android:background="@drawable/ayarlarstyle">
-        
+
         <TextView
+            android:id="@+id/tvEkran"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ayarlar1Text"
             android:textSize="25sp"
             android:textColor="@color/white"/>
 
-       <Switch
-           android:id="@+id/ekranSwitch"
-           android:layout_marginTop="10dp"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textColor="@color/white"
-           android:textSize="20sp"
-           android:switchPadding="5dp"
-           android:text="Kapalı"/>
+        <Switch
+            android:id="@+id/ekranSwitch"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:switchPadding="5dp"
+            android:text="Kapalı"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,6 +46,7 @@
         android:background="@drawable/ayarlarstyle">
 
         <TextView
+            android:id="@+id/tvTitresim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ayarlar3Text"
@@ -64,12 +66,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:background="@drawable/ayarlarstyle">
         <TextView
+            android:id="@+id/tvRenkTema"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ayarlar2Text"
@@ -81,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_gravity="center"
             android:orientation="horizontal" >
             <LinearLayout
                 android:id="@+id/colorred"
@@ -119,19 +123,13 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/colorindigo"> </LinearLayout>
-            <LinearLayout
-                android:id="@+id/colorblue"
-                android:orientation="horizontal"
 
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/colorblue"> </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
 
             android:orientation="horizontal" >
             <LinearLayout
@@ -152,15 +150,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/colorgrey"> </LinearLayout>
-            <LinearLayout
-                android:id="@+id/coloryellow"
-                android:orientation="horizontal"
 
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/coloryellow"> </LinearLayout>
             <LinearLayout
                 android:id="@+id/colororange"
                 android:orientation="horizontal"
@@ -170,15 +160,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/colororange"> </LinearLayout>
-            <LinearLayout
-                android:id="@+id/colordeeporange"
-                android:orientation="horizontal"
 
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/colordeeporange"> </LinearLayout>
             <LinearLayout
                 android:id="@+id/colorbrown"
                 android:orientation="horizontal"
@@ -192,15 +174,24 @@
 
 
         </LinearLayout>
-        <ImageView
-            android:id="@+id/completeColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_check_circle_24"
-            android:layout_gravity="center"/>
 
 
-    
 
-</LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnKaydet"
+        android:layout_width="210dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center|bottom"
+        android:background="@drawable/buttonstopover_style"
+        android:fontFamily="@font/mulish_extrabold"
+        android:text="@string/buttonCheck"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/bgcolor"
+        android:textSize="20sp"
+
+        android:textStyle="bold"/>
 </LinearLayout>

@@ -11,8 +11,8 @@
 
         <gradient
             android:angle="0"
-            android:endColor="@color/bgcolor"
-            android:startColor="@color/bgcolor"
+            android:endColor="@color/circulaprogressbar2"
+            android:startColor="@color/circulaprogressbar2"
             android:type="sweep"
             android:useLevel="false"/>
 

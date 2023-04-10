@@ -1,6 +1,7 @@
 package com.example.pomodorosayaci;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -16,12 +17,16 @@ public class SplashScreenActivity extends AppCompatActivity {
     private Animation animation;
     private Handler handler;
     private Intent intent;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTheme(R.style.SplashTheme);
+        sharedPreferences = getSharedPreferences("screen",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("ilkekranrenk",true);
+        editor.apply();
         handler = new Handler();
         Thread logoAnim = new Thread(){
             @Override
