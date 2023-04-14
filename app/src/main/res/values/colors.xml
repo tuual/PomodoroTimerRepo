@@ -9,17 +9,17 @@
     <color name="white">#E0E0E0</color>
 
 
-    <color name="bgcolor">#F44336</color>
-    <color name="bgcolorPink">#E91E63</color>
-    <color name="bgcolorPurple">#9C27B0</color>
-    <color name="bgcolorDeepPurple">#673AB7</color>
+    <color name="bgcolor">#F03A47</color>
+    <color name="bgcolorPink">#BAD8A2</color>
+    <color name="bgcolorPurple">#4F3960</color>
+    <color name="bgcolorDeepPurple">#385C76</color>
     <color name="bgcolorIndigo">#3F51B5</color>
-    <color name="bgcolorBlue">#2196F3</color>
+    <color name="bgcolorBlue">#7DCD84</color>
     <color name="bgcolorGreen">#4CAF50</color>
-    <color name="bgcolorLime">#CDDC39</color>
+    <color name="bgcolorLime">#6DC2A3</color>
     <color name="bgcolorYellow">#FFEB3B</color>
-    <color name="bgcolorOrange">#FF9800</color>
-    <color name="bgcolorDeepOrange">#FF5722</color>
+    <color name="bgcolorOrange">#673AB7</color>
+    <color name="bgcolorDeepOrange">#673AB7</color>
     <color name="bgcolorBrown">#795548</color>
     <color name="bgcolorGrey">#212121</color>
 

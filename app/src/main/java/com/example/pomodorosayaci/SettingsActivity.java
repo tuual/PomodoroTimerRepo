@@ -45,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.ekranSwitch.setTextColor(nowColor);
             binding.titresimSwitch.setTextColor(nowColor);
             binding.btnKaydet.setTextColor(nowColor);
+
         }
         else{
             binding.mainlayout.setBackgroundColor(colortheme);
@@ -54,6 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
             binding.ekranSwitch.setTextColor(colortheme);
             binding.titresimSwitch.setTextColor(colortheme);
             binding.btnKaydet.setTextColor(colortheme);
+
 
         }
         // Secili Switch

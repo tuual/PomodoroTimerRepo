@@ -96,15 +96,18 @@
 
             <Button
                 android:id="@+id/btnStopOver"
-                android:layout_width="210dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
                 android:layout_gravity="center|bottom"
                 android:background="@drawable/buttonstopover_style"
                 android:fontFamily="@font/mulish_extrabold"
                 android:text="@string/buttonStopOverText"
                 android:textColor="@color/bgcolor"
                 android:textSize="20sp"
-
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

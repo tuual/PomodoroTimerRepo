@@ -3,12 +3,14 @@
     <string name="todo">TODO</string>
     <string name="timerText">00:00</string>
     <string name="buttonStartText">Başlat</string>
-    <string name="buttonStopOverText">Molaya Geç</string>
-    <string name="buttonStopOverText2">Çalışma Alanına Geç</string>
+    <string name="buttonStopOverText">Mola</string>
+    <string name="buttonStopOverText2">Pomodoro</string>
     <string name="ayarlar">Ayarlar</string>
     <string name="ayarlar1Text">Ekranı Uyanık Tut</string>
     <string name="ayarlar2Text">Renk Temaları</string>
     <string name="ayarlar3Text">Sayaç Bittiğinde Titreşim</string>
     <string name="buttonCheck">Kaydet</string>
+    <string name="iletisim">Bize Yazın.</string>
+    <string name="puan">Puan Verin.</string>
 
 </resources>

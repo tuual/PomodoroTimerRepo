@@ -1,6 +1,7 @@
 package com.example.pomodorosayaci;
 
-import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,9 +15,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.example.pomodorosayaci.databinding.ActivityMainBinding;
 
@@ -28,17 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private String buttonText;
     private CountDownTimer mCountDownTimer;
     private static long START_TIME_IN_MILLIS = 25 * 60 * 1000;
-    private boolean mTimerRunning,vibrate,isScreenOn,ilkekranrenk;
+    private boolean mTimerRunning,vibrate;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
     private int i = 0;
-    private int themeColor;
-    private int nowColor;
     private ImageView img;
     private MediaPlayer mediaPlayer;
 
 
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,25 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
         mediaPlayer = null;
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
-         isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
-        themeColor = sharedPreferences.getInt("themecolor",0);
-        ilkekranrenk = sharedPreferences.getBoolean("ilkekranrenk",false);
+        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        int themeColor = sharedPreferences.getInt("themecolor",0);
         vibrate = sharedPreferences.getBoolean("vibrate", false);
-        nowColor = ContextCompat.getColor(getApplicationContext(),R.color.bgcolor);
-        if (themeColor ==   0){
-            binding.mainlayout.setBackgroundColor(nowColor);
-            binding.btnStopOver.setTextColor(nowColor);
-        }
-        else{
-
-            binding.mainlayout.setBackgroundColor(themeColor);
-            binding.btnStopOver.setTextColor(themeColor);
-
-        }
 
 
 
-
+        binding.mainlayout.setBackgroundColor(themeColor);
+        binding.btnStopOver.setTextColor(themeColor);
 
 
 
@@ -162,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                showNotification();
 
             }
         }.start();
@@ -181,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
         binding.tvTimeText.setVisibility(View.VISIBLE);
         img.setImageResource(R.drawable.baseline_play_circle_24);
         binding.btnReset.setVisibility(View.VISIBLE);
-        binding.btnStopOver.setVisibility(View.INVISIBLE);
-
+        binding.btnStopOver.setVisibility(View.VISIBLE);
 
 
 
@@ -196,7 +182,28 @@ public class MainActivity extends AppCompatActivity {
         binding.tvTimeText.setText(timeLeftFormatted);
     }
 
+    private void showNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "my_channel_id";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.drawable.baseline_timer_24)
+                .setContentTitle("Pomodoro Bitti!")
+                .setContentText("25 dakika dolmuştur.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelName = "Pomodoro Bitti!";
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(0, builder.build());
+
+
+
+    }
     private void settingsPage() {
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
@@ -215,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
-            binding.ImgSettings.setVisibility(View.INVISIBLE);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
+
 
         }
         else
@@ -225,18 +232,15 @@ public class MainActivity extends AppCompatActivity {
 
             if (mTimerLeftInMillis <1000 ){
                 binding.imgStart.setVisibility(View.INVISIBLE);
-                binding.ImgSettings.setVisibility(View.INVISIBLE );
-                binding.btnStopOver.setVisibility(View.INVISIBLE);
+
             }
             else{
                 binding.imgStart.setVisibility(View.VISIBLE);
-                binding.ImgSettings.setVisibility(View.VISIBLE);
-                binding.btnStopOver.setVisibility(View.VISIBLE);
+
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
-                binding.ImgSettings.setVisibility(View.VISIBLE);
-                binding.btnStopOver.setVisibility(View.VISIBLE);
+
 
             }
             else{
@@ -245,30 +249,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong("millisLeft",mTimerLeftInMillis);
-        outState.putBoolean("timerRunning",mTimerRunning);
-        outState.putLong("endTime",mEndTime);
-    }
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mTimerLeftInMillis = savedInstanceState.getLong("millisLeft");
-        mTimerRunning = savedInstanceState.getBoolean("timerRunning");
-        updateCountDownText();
-        updateButtons();
-
-        if (mTimerRunning){
-            mEndTime = savedInstanceState.getLong("endTime");
-            mTimerLeftInMillis = mEndTime - System.currentTimeMillis();
-
-            startTimer();
-        }
-    }
 }
 
 
