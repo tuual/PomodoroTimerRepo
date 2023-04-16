@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         binding.tvTimeText.setVisibility(View.VISIBLE);
         img.setImageResource(R.drawable.baseline_play_circle_24);
         binding.btnReset.setVisibility(View.VISIBLE);
-        binding.btnStopOver.setVisibility(View.VISIBLE);
 
 
 
@@ -223,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
+            binding.ImgSettings.setVisibility(View.INVISIBLE);
 
 
         }
@@ -232,14 +232,21 @@ public class MainActivity extends AppCompatActivity {
 
             if (mTimerLeftInMillis <1000 ){
                 binding.imgStart.setVisibility(View.INVISIBLE);
+                binding.ImgSettings.setVisibility(View.INVISIBLE);
+
 
             }
             else{
                 binding.imgStart.setVisibility(View.VISIBLE);
+                binding.ImgSettings.setVisibility(View.VISIBLE);
+                binding.btnStopOver.setVisibility(View.VISIBLE);
+
+
 
             }
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
+                binding.ImgSettings.setVisibility(View.VISIBLE);
 
 
             }
