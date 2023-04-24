@@ -1,4 +1,4 @@
-package com.example.pomodorosayaci;
+package tual.gokmen.pomodorosayaci;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +9,8 @@ import android.view.animation.AnimationUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pomodorosayaci.databinding.ActivitySplashScreenBinding;
+import tual.gokmen.pomodorosayaci.databinding.ActivitySplashScreenBinding;
+
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Thread logoAnim = new Thread(){
             @Override
             public void run() {
-                animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_intro_logo);
+                animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_intro_logo);
                 binding.splashlogo.startAnimation(animation);
             }
         };

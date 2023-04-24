@@ -1,6 +1,5 @@
-package com.example.pomodorosayaci;
+package tual.gokmen.pomodorosayaci;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -20,39 +19,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.pomodorosayaci.databinding.ActivityMain2Binding;
-
 import java.util.Locale;
 
-public class MainActivity2 extends AppCompatActivity {
+import tual.gokmen.pomodorosayaci.databinding.ActivityMainBinding;
 
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+    private String buttonText;
     private CountDownTimer mCountDownTimer;
-    private static long START_TIME_IN_MILLIS = 5 * 60 * 1000;
-    private boolean mTimerRunning, vibrate, isScreenOn;
+    private static long START_TIME_IN_MILLIS = 25 * 60 * 1000;
+    private boolean mTimerRunning,vibrate;
     private long mTimerLeftInMillis = START_TIME_IN_MILLIS;
     private long mEndTime;
-    private int mProgressBar, nowColor;
-
+    private int i = 0;
     private ImageView img;
-    private ActivityMain2Binding binding;
     private MediaPlayer mediaPlayer;
+    private int nowColor = 0;
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMain2Binding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.tvTimeText.setText("05:00");
-        mediaPlayer = null;
-        img = findViewById(R.id.imgStart);
 
+        mediaPlayer = null;
         SharedPreferences sharedPreferences = getSharedPreferences("screen", Context.MODE_PRIVATE);
-        isScreenOn = sharedPreferences.getBoolean("keep_screen_on", true);
-        int themeColor = sharedPreferences.getInt("themecolor", 0);
+        boolean isScreenOn = sharedPreferences.getBoolean("keep_screen_on", false);
+        int themeColor = sharedPreferences.getInt("themecolor",0);
         vibrate = sharedPreferences.getBoolean("vibrate", false);
-        binding.mainlayout.setBackgroundColor(themeColor);
-        binding.btnStopOver.setTextColor(themeColor);
+
         nowColor = ContextCompat.getColor(getApplicationContext(), R.color.bgcolor);
 
 
@@ -65,6 +62,11 @@ public class MainActivity2 extends AppCompatActivity {
             binding.btnStopOver.setTextColor(themeColor);
 
         }
+
+
+
+
+
         if (isScreenOn) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
@@ -72,8 +74,11 @@ public class MainActivity2 extends AppCompatActivity {
         }
 
 
+        binding.progressBar.setProgress((int)i);
+        binding.tvTimeText.setText("25:00");
+        img = findViewById(R.id.imgStart);
         binding.ImgSettings.setOnClickListener(view -> {
-            settingspage();
+            settingsPage();
         });
 
         binding.imgStart.setOnClickListener(view -> {
@@ -93,14 +98,11 @@ public class MainActivity2 extends AppCompatActivity {
             overPage();
         });
 
-
         updateCountDownText();
-
     }
 
-
     private void overPage() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(),MainActivity2.class);
         startActivity(intent);
         finish();
     }
@@ -109,6 +111,7 @@ public class MainActivity2 extends AppCompatActivity {
     private void resetTimer() {
         mTimerLeftInMillis = START_TIME_IN_MILLIS;
         binding.progressBar.setProgress(0);
+        i = 0;
         stopAlarm();
         updateCountDownText();
         updateButtons();
@@ -119,15 +122,18 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void startTimer() {
         mEndTime = System.currentTimeMillis() + mTimerLeftInMillis;
-        binding.progressBar.setMax(5 * 60); // 5 dakika için
+        binding.progressBar.setMax(25 * 60);
         mCountDownTimer = new CountDownTimer(mTimerLeftInMillis, 1000) {
             @Override
             public void onTick(long l) {
                 mTimerLeftInMillis = l;
                 updateCountDownText();
-                binding.tvTimeText.setVisibility(View.VISIBLE);
-                int progress = (int) ((5 * 60 * 1000 - mTimerLeftInMillis) / 1000);
+
+
+
+                int progress = (int) ((25 * 60 * 1000 - mTimerLeftInMillis) / 1000);
                 binding.progressBar.setProgress(progress);
+
 
             }
 
@@ -135,7 +141,7 @@ public class MainActivity2 extends AppCompatActivity {
             public void onFinish() {
                 mTimerRunning = false;
                 updateButtons();
-
+                binding.progressBar.setProgress(25 * 60);
                 if (mediaPlayer == null) {
                     mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
                 }
@@ -144,20 +150,15 @@ public class MainActivity2 extends AppCompatActivity {
 
                 });
                 mediaPlayer.start();
-
-                if (vibrate) {
+                if (vibrate){
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
-                    } else {
-                        vibrator.vibrate(2000);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                        vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    }
+                    else{
+                        vibrator.vibrate(1000);
                     }
 
-                } else {
-                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                    if (vibrator.hasVibrator()) {
-                        vibrator.cancel();
-                    }
                 }
                 showNotification();
 
@@ -169,17 +170,9 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopAlarm();
-    }
-
-    private void stopAlarm() {
+    private void stopAlarm(){
         mediaPlayer = null;
     }
-
 
     private void pauseTimer() {
         mCountDownTimer.cancel();
@@ -189,32 +182,8 @@ public class MainActivity2 extends AppCompatActivity {
         binding.btnReset.setVisibility(View.VISIBLE);
 
 
-    }
-
-    private void showNotification() {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = "my_channel_id";
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.baseline_timer_24)
-                .setContentTitle("Mola Bitti!")
-                .setContentText("5 dakika dolmuştur.")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelName = "Mola Bitti!";
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(0, builder.build());
-
-
 
     }
-
-
 
     private void updateCountDownText() {
         int minutes = (int) (mTimerLeftInMillis / 1000) /60;
@@ -224,30 +193,55 @@ public class MainActivity2 extends AppCompatActivity {
         binding.tvTimeText.setText(timeLeftFormatted);
     }
 
+    private void showNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "my_channel_id";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+                .setSmallIcon(R.drawable.baseline_timer_24)
+                .setContentTitle("Pomodoro Bitti!")
+                .setContentText("25 dakika dolmuştur.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-    private void settingspage() {
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelName = "Pomodoro Bitti!";
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(0, builder.build());
+
+
+
+    }
+    private void settingsPage() {
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
         finish();
 
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     private void updateButtons(){
         if (mTimerRunning){
             binding.btnReset.setVisibility(View.INVISIBLE);
             img.setImageResource(R.drawable.baseline_pause_24);
-            binding.ImgSettings.setVisibility(View.INVISIBLE);
             binding.btnStopOver.setVisibility(View.INVISIBLE);
-
-
-
+            binding.ImgSettings.setVisibility(View.INVISIBLE);
 
 
         }
         else
         {
             img.setImageResource(R.drawable.baseline_play_circle_24);
+
             if (mTimerLeftInMillis <1000 ){
                 binding.imgStart.setVisibility(View.INVISIBLE);
                 binding.ImgSettings.setVisibility(View.INVISIBLE);
@@ -257,7 +251,7 @@ public class MainActivity2 extends AppCompatActivity {
             else{
                 binding.imgStart.setVisibility(View.VISIBLE);
                 binding.ImgSettings.setVisibility(View.VISIBLE);
-                binding.btnStopOver.setVisibility(View.VISIBLE  );
+                binding.btnStopOver.setVisibility(View.VISIBLE);
 
 
 
@@ -265,8 +259,6 @@ public class MainActivity2 extends AppCompatActivity {
             if(mTimerLeftInMillis < START_TIME_IN_MILLIS){
                 binding.btnReset.setVisibility(View.VISIBLE);
                 binding.ImgSettings.setVisibility(View.VISIBLE);
-
-
 
 
             }
@@ -278,3 +270,5 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 }
+
+

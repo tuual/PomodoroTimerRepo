@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    namespace 'com.example.pomodorosayaci'
+    namespace 'tual.gokmen.pomodorosayaci'
     compileSdk 33
 
     buildFeatures{
         viewBinding = true
     }
     defaultConfig {
-        applicationId "com.example.pomodorosayaci"
+        applicationId "tual.gokmen.pomodorosayaci"
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 33

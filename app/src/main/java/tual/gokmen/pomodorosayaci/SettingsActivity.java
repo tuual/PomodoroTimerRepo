@@ -1,4 +1,4 @@
-package com.example.pomodorosayaci;
+package tual.gokmen.pomodorosayaci;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +10,8 @@ import android.widget.CompoundButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.pomodorosayaci.databinding.ActivitySettingsBinding;
+import tual.gokmen.pomodorosayaci.databinding.ActivitySettingsBinding;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
